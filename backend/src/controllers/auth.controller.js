@@ -1,14 +1,9 @@
-import { google } from "googleapis";
 import axios from "axios";
 
+import { oAuth2Client } from "../utils/oAuthConfig.js";
 import { User } from "../models/User.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-
-export const oAuth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  "postmessage"
-);
+import { subscribeToWatchEventsLogic } from "../utils/watchEventSubscription.js";
 
 export const googleLogin = asyncHandler(async (req, res) => {
   const { tokens } = await oAuth2Client.getToken(req.query.code);
@@ -27,7 +22,33 @@ export const googleLogin = asyncHandler(async (req, res) => {
       email,
       avatar: picture,
       refresh_token: tokens.refresh_token,
+      channelId: "",
+      resourceId: "",
     });
+  }
+
+  console.log(user);
+  console.log(user.channelId);
+
+  const oldChannelId = user.channelId !== "" ? user.channelId : null;
+
+  console.log(oldChannelId);
+
+  console.log(user.channelId);
+
+  if (user.refresh_token) {
+    const webhookUrl =
+      "https://9f35-2409-40d4-34-6a6f-b50a-39de-20e2-ef86.ngrok-free.app/events/notifications";
+
+    try {
+      await subscribeToWatchEventsLogic(
+        user.refresh_token,
+        webhookUrl,
+        oldChannelId
+      );
+    } catch (error) {
+      console.error("Failed to subscribe to watch events:", error.message);
+    }
   }
 
   return res.status(200).json({

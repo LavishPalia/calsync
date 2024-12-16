@@ -10,16 +10,8 @@ import { getAllEvents } from "../axios/api";
 export type Event = {
   id: string;
   summary: string;
-  description: string;
-  location: string;
-  start: {
-    dateTime: string;
-    timeZone: string;
-  };
-  end: {
-    dateTime: string;
-    timeZone: string;
-  };
+  start: string;
+  date: string;
 };
 
 type EventContextType = {
@@ -45,13 +37,13 @@ export const EventProvider: React.FC<EventProviderProps> = ({ children }) => {
 
     try {
       const response = await getAllEvents({ token });
+      console.log(response);
+
       const extractedEvents = response.data.events.map((event: any) => ({
-        id: event.id,
-        summary: event.summary,
-        description: event.description,
-        location: event.location,
-        start: event.start,
-        end: event.end,
+        id: event._id,
+        summary: event.name,
+        start: event.time,
+        date: event.date,
       }));
       setEvents(extractedEvents);
     } catch (error) {

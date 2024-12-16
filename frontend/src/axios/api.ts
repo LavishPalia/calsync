@@ -43,10 +43,8 @@ export const createEvent = (
 export const getAllEvents = (token: { token: string }) =>
   api.post(`/events/all`, token);
 
-export const deleteEvent = (
-  googleEventId: string,
-  { token }: { token: string }
-) => api.delete(`/events/delete/${googleEventId}?token=${token}`);
+export const deleteEvent = (eventId: string, { token }: { token: string }) =>
+  api.delete(`/events/delete/${eventId}?token=${token}`);
 
 export const updateEvent = (
   eventData: CreateEventInput,

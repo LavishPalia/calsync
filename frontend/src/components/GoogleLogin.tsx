@@ -25,6 +25,8 @@ const GoogleLogin = () => {
       if (authResult["code"]) {
         const result = await googleAuth(authResult["code"]);
 
+        console.log(result);
+
         const token = result.data.token;
 
         const { email, name, avatar } = result.data.user;
@@ -49,7 +51,7 @@ const GoogleLogin = () => {
     onError: googleResponse,
     flow: "auth-code",
     scope:
-      "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly",
+      "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events.readonly",
   });
 
   return (

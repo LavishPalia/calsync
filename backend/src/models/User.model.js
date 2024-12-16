@@ -14,6 +14,15 @@ const userSchema = new mongoose.Schema(
     refresh_token: {
       type: String,
     },
+    channelId: {
+      type: String,
+    },
+    resourceId: {
+      type: String,
+    },
+    syncToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,

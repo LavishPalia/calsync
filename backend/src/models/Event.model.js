@@ -6,6 +6,10 @@ const eventSchema = new mongoose.Schema(
     date: { type: String, required: true },
     time: { type: String, required: true },
     googleEventId: { type: String, required: true },
+    etag: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

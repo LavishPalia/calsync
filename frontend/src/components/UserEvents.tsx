@@ -39,14 +39,11 @@ const UserEvents = () => {
               <h2 className="text-lg font-semibold text-gray-100">
                 {event.summary || "Untitled Event"}
               </h2>
-              <p className="mt-1 text-sm text-gray-300">
-                {event.location || "Google Meet"}
-              </p>
               <div className="flex justify-between mt-4 text-sm text-gray-400">
                 <div>
                   <span className="font-medium text-gray-200">Start: </span>
-                  {event.start?.dateTime
-                    ? new Date(event.start.dateTime).toLocaleString()
+                  {event.start
+                    ? new Date(`${event.date}:${event.start}`).toLocaleString()
                     : "N/A"}
                 </div>
               </div>
